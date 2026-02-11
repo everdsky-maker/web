@@ -5,12 +5,12 @@ const startX = window.innerWidth / 2;
 const startY = window.innerHeight;
 const trunkLength = 120;
 const valentineColors = [
-    "#ff1744",  // ярко-красный
-    "#ff4d6d",  // розовый
-    "#ff6f91",  // нежно-розовый
-    "#ff8fab",  // светло-розовый
-    "#d63384",  // малиновый
-    "#c9184a"   // глубокий красный
+    "#ff1744",  
+    "#ff4d6d",  
+    "#ff6f91",  
+    "#ff8fab",  
+    "#d63384",  
+    "#c9184a"   
 ];
 
 let branchCount = 0;
@@ -42,7 +42,7 @@ function drawBranch(x1, y1, length, angle, depth, delay) {
         line.setAttribute("y2", y2);
     }, delay);
 
-    // ❤️ Добавляем сердечки ТОЛЬКО на тонких ветках
+    
     if (depth < 6 && depth > 1) {
 
         const heartsOnBranch = 2 + Math.floor(Math.random() * 2);
@@ -94,7 +94,7 @@ function createHeart(x, y, size = 16) {
 }
 
 
-// 🍃 падающие сердечки
+
 function fallingHearts() {
     const el = document.createElement("div");
     el.className = "fall";
@@ -108,5 +108,6 @@ function fallingHearts() {
 
 setInterval(fallingHearts, 500);
 
-// старт
+
 drawBranch(startX, startY, trunkLength, Math.PI / 2, 8, 0);
+
