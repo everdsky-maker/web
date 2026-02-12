@@ -1,18 +1,66 @@
-const svg = document.getElementById("tree");
-const message = document.getElementById("message");
-const ground = document.getElementById("ground");
+document.addEventListener("DOMContentLoaded", function () {
 
-const valentineColors=[
-"#ff1744","#ff4d6d","#ff6f91",
-"#ff8fab","#d63384","#c9184a"
-];
+    const message = document.getElementById("message");
+    const ground = document.getElementById("ground");
+    const trunkRect = document.getElementById("trunkRect");
+    const branchesRect = document.getElementById("branchesRect");
+    const hearts = document.querySelectorAll("#heartsGroup path");
+    let trunkHeight = 0;
+    const trunkMax = 1000;
+    let branchWidth = 0;
+    const branchMax = 600;
 
-const startX = window.innerWidth/2;
-const startY = window.innerHeight*0.75;
-const trunkLength = window.innerWidth<600?80:120;
+    function growTrunk() {
 
-/* Горизонт */
-function animateGround(){
+        trunkHeight += 6;
+
+        trunkRect.setAttribute(
+            "y",
+            1000 - trunkHeight
+        );
+
+        trunkRect.setAttribute(
+            "height",
+            trunkHeight
+        );
+
+        let progress =
+            trunkHeight / trunkMax;
+
+        let branchStart = 0.6;
+
+        if (progress > branchStart) {
+
+            let branchProgress =
+                (progress - branchStart) /
+                (1 - branchStart);
+
+            branchWidth =
+                branchMax * branchProgress;
+
+            branchesRect.setAttribute(
+                "x",
+                300 - branchWidth / 2
+            );
+
+            branchesRect.setAttribute(
+                "width",
+                branchWidth
+            );
+        }
+
+        animateHearts(progress);
+
+        if (progress >= 1) {
+            showText();
+        }
+
+        if (trunkHeight < trunkMax) {
+            requestAnimationFrame(growTrunk);
+        }
+    }
+
+    function animateGround(){
     let width=0;
     const maxWidth=300;
     function grow(){
@@ -28,108 +76,101 @@ function animateGround(){
 }
 animateGround();
 
-/* Рисование дерева */
-function drawBranch(x1,y1,length,angle,depth){
-    if(depth===0){
-        if(Math.random()>0.3){
-            createHeart(x1,y1,12+Math.random()*6);
-        }
-        return;
+    let heartsStarted = false;
+
+    function animateHearts(treeProgress) {
+
+        if (treeProgress < 0.7 || heartsStarted) return;
+
+        heartsStarted = true;
+
+        hearts.forEach((heart) => {
+
+            const delay =
+                Math.random() * 2;
+
+            heart.style.animation =
+                `heartAppear 0.8s ease forwards ${delay}s`;
+        });
     }
 
-    const x2=x1+length*Math.cos(angle);
-    const y2=y1-length*Math.sin(angle);
+    const style =
+        document.createElement("style");
 
-    const line=document.createElementNS("http://www.w3.org/2000/svg","line");
-    line.setAttribute("x1",x1);
-    line.setAttribute("y1",y1);
-    line.setAttribute("x2",x1);
-    line.setAttribute("y2",y1);
-    line.setAttribute("class","branch");
-    line.setAttribute("stroke-width",depth*1.5);
-
-    svg.appendChild(line);
-
-    let progress=0;
-    function grow(){
-        progress+=0.03;
-        if(progress<=1){
-            line.setAttribute("x2",x1+(x2-x1)*progress);
-            line.setAttribute("y2",y1+(y2-y1)*progress);
-            requestAnimationFrame(grow);
-        }else{
-            drawBranch(x2,y2,length*0.75,angle-0.4+Math.random()*0.2,depth-1);
-            drawBranch(x2,y2,length*0.75,angle+0.4-Math.random()*0.2,depth-1);
-            if(depth===1){
-                setTimeout(showText,1000);
+    style.textContent = `
+        @keyframes heartAppear{
+            from{
+                opacity:0;
+                transform:scale(0);
+            }
+            to{
+                opacity:1;
+                transform:scale(1);
             }
         }
+    `;
+
+    document.head.appendChild(style);
+
+    function fallingHearts(){
+
+        const el = document.createElement("div");
+        el.className = "fall";
+        el.innerHTML = "❤";
+
+        el.style.left =
+            Math.random() * window.innerWidth + "px";
+
+        el.style.animationDuration =
+            4 + Math.random() * 4 + "s";
+
+        document.body.appendChild(el);
+
+        setTimeout(() => el.remove(), 4000);
     }
-    grow();
-}
 
-function createHeart(x, y, size = 16) {
-    const heart = document.createElement("div");
-    heart.className = "heart";
+    setInterval(fallingHearts, 500);
 
-    const color = valentineColors[Math.floor(Math.random() * valentineColors.length)];
+    let typingStarted = false;
 
-    heart.style.left = x + "px";
-    heart.style.top = y + "px";
-    heart.style.width = size + "px";
-    heart.style.height = size + "px";
-    heart.style.background = color;
-    heart.style.boxShadow = `0 0 15px ${color}`;
+    function typeWriter(element, html, speed = 35) {
 
-    heart.style.setProperty("--heartColor", color);
+        if (typingStarted) return;
+        typingStarted = true;
 
-    document.body.appendChild(heart);
-}
+        const text =
+            html.replace(/<br\s*\/?>/gi, "\n");
 
-/* Падающие сердца */
-function fallingHearts(){
-    const el=document.createElement("div");
-    el.className="fall";
-    el.innerHTML="❤";
-    el.style.left=Math.random()*window.innerWidth+"px";
-    el.style.animationDuration=4+Math.random()*4+"s";
-    document.body.appendChild(el);
-    setTimeout(()=>el.remove(),8000);
-}
-setInterval(fallingHearts,500);
+        element.textContent = "";
+        element.style.whiteSpace = "pre-line";
 
-/* Печать текста */
-let typingStarted = false;
+        let i = 0;
 
-function typeWriter(element, html, speed = 35) {
+        function typing() {
 
-    if (typingStarted) return; // защита от повторного запуска
-    typingStarted = true;
+            if (i < text.length) {
 
-    const text = html.replace(/<br\s*\/?>/gi, "\n");
-    element.textContent = "";
-    element.style.whiteSpace = "pre-line";
+                element.textContent =
+                    text.slice(0, i + 1);
 
-    let i = 0;
-
-    function typing() {
-        if (i < text.length) {
-            element.textContent = text.slice(0, i + 1);
-            i++;
-            setTimeout(typing, speed);
+                i++;
+                setTimeout(typing, speed);
+            }
         }
+
+        typing();
     }
 
-    typing();
-}
+    function showText(){
 
+        message.style.opacity = 1;
 
-
-function showText(){
-    message.style.opacity = 1;
-
-    const text = `I wish that a little spark always burns in your heart ❤️.<br>
+        const text = `I wish that a little spark always burns in your heart ❤️.<br>
 May love inspire you, lift you up, and give you the brightest experience`;
 
-    typeWriter(message, text, 35);
-}
+        typeWriter(message, text, 35);
+    }
+
+    growTrunk();
+
+});
