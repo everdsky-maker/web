@@ -1,41 +1,47 @@
 @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&display=swap');
 
-body {
-    margin: 0;
-    font-family: "Caveat", cursive;
-    min-height: 100vh;
+body{
+    margin:0;
     background: linear-gradient(180deg, #fbc2eb 0%, #fad0c4 100%);
-    position: relative;
-    overflow: hidden;
+    font-family: "Caveat", cursive;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
 }
 
+svg{
+    width:500px;
+ 
+}
+
+.cls-1{
+    fill:#7a3f0e;
+}
+
+.cls-2{ fill:#ff1744; }
+.cls-3{ fill:#ff4d6d; }
+.cls-4{ fill:#ff6f91; }
+.cls-5{ fill:#d63384; }
+.cls-6{ fill:#fb6f92; }
+.cls-7{ fill:#c9184a;}
+
+#heartsGroup path{
+    opacity: 0;
+    transform: scale(0);
+    transform-box: fill-box;
+    transform-origin: center;
+}
 
 #ground {
     position: absolute;
-    bottom: 20%;
+    bottom: 31%;
     left: 50%;
     transform: translateX(-50%);
     height: 3px;
     width: 0;
     background: #6b3e26;
 }
-
-
-svg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
-
-
-.branch {
-    stroke: #5b2c2c;
-    stroke-linecap: round;
-    fill: none;
-}
-
 
 .heart {
     position: absolute;
@@ -85,8 +91,11 @@ svg {
     top: 10%;
     width: 100%;
     text-align: center;
-    font-size: clamp(35px,4vw,32px);
+    font-weight: 700;
+    font-size: clamp(35px,4vw,35px);
     color: #7a1e3a;
     opacity: 0;
     transition: opacity 2s ease;
 }
+
+
