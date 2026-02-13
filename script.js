@@ -68,8 +68,6 @@ document.addEventListener("DOMContentLoaded", function () {
             width+=4;
             ground.style.width=width+"px";
             requestAnimationFrame(grow);
-        } else {
-            drawBranch(startX,startY,trunkLength,Math.PI/2,8);
         }
     }
     grow();
@@ -174,3 +172,4 @@ May love inspire you, lift you up, and give you the brightest experience`;
     growTrunk();
 
 });
+
