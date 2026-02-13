@@ -98,47 +98,92 @@ svg{
     transition: opacity 2s ease;
 }
 
-
-@media (max-width:600px)
-{
-
-    #message {
-        font-size: 28px;
-    }
-    #ground {
-        bottom: 3.4%;
-    }
+@media (max-width:420px){
 
     svg{
+        width:88vw;
+        max-width:360px;
         position:absolute;
-        bottom:-1%;
         left:50%;
         transform:translateX(-50%);
+        bottom:6%;
+    }
+
+    #ground{
+        bottom:9%;
+    }
+
+    #message{
+        width:90%;
+        left:45%;
+        transform:translateX(-50%);
+        font-size:25px;
+        text-align:center;
     }
 
 }
 
-@media (max-width:1920px){
-     #ground {
-        bottom: 27.5%;
+@media (min-width:421px) and (max-width:900px){
+
+    svg{
+        width:420px;
+       
     }
+    #ground{
+        bottom:12%;
+    }
+
+    #message{
+        font-size:22px;
+    }
+
 }
 
-@media (max-width:1440px)
-{
-
-    #message {
-        font-size: 30px;
-    }
-    #ground {
-        bottom: 9.5%;
-    }
+@media (min-width:901px) and (max-width:1366px){
 
     svg{
         position:absolute;
-        bottom:5%;
-        left:50%;
-        transform:translateX(-50%);
+        width:500px;
+        bottom: 6%;
+    }
+
+    #ground{
+        bottom:10.5%;
+    }
+
+}
+
+@media (min-width:1920px){
+
+    svg{
+        position:absolute;
+        width:700px;
+        bottom:4%;
+    }
+
+    #ground{
+        bottom:9.5%;
+    }
+
+    #message{
+        font-size:36px;
+    }
+
+}
+
+@media (min-width:2560px){
+
+    svg{
+        width:900px;
+        bottom:2%;
+    }
+
+    #ground{
+        bottom:7.1%;
+    }
+
+    #message{
+        font-size:44px;
     }
 
 }
