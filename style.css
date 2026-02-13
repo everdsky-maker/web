@@ -99,3 +99,46 @@ svg{
 }
 
 
+@media (max-width:600px)
+{
+
+    #message {
+        font-size: 30px;
+    }
+    #ground {
+        bottom: 3.4%;
+    }
+
+    svg{
+        position:absolute;
+        bottom:-1%;
+        left:50%;
+        transform:translateX(-50%);
+    }
+
+}
+
+@media (max-width:1920px){
+     #ground {
+        bottom: 27.5%;
+    }
+}
+
+@media (max-width:1440px)
+{
+
+    #message {
+        font-size: 30px;
+    }
+    #ground {
+        bottom: 9.5%;
+    }
+
+    svg{
+        position:absolute;
+        bottom:5%;
+        left:50%;
+        transform:translateX(-50%);
+    }
+
+}
