@@ -115,7 +115,7 @@ svg{
 
     #message{
         width:90%;
-        left:45%;
+        left:50%;
         transform:translateX(-50%);
         font-size:25px;
         text-align:center;
@@ -126,15 +126,21 @@ svg{
 @media (min-width:421px) and (max-width:900px){
 
     svg{
-        width:420px;
+        position:absolute;
+        width:480px;
+        bottom:6%;
        
     }
     #ground{
-        bottom:12%;
+        bottom:9.5%;
     }
 
     #message{
-        font-size:22px;
+        width:90%;
+        left:50%;
+        transform:translateX(-50%);
+        font-size:25px;
+        text-align:center;
     }
 
 }
